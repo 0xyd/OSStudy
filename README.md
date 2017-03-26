@@ -25,7 +25,95 @@ An Open note for people who want to study OS.
 
 # Chapter 10: File System
 
-# Chapter 11: Mass-Storage Structure
+## Secondary Storage
+
+Because the memory is too small to store all our data, we need a bigger storage to put our data.
+
+## File System
+
+It is designed to allow users to manipulate the data or programs in the secondary storage.
+
+File: A collection of related information with *logical interpretation* for users, creators or applications.
+
+Directory Structure: 
+
+## Access Methods for Files: 
+
+1. Sequential Acceess:
+
+Information in the file is processed inorder. Ex: Compiler or text editor.
+
+
+2. Direct Access (Relative Access)
+
+File is a numbered sequence of blocks (Fixed length of logical records). 
+Use block number n to decide where to start read or write.
+
+
+3. Index-Based Access
+
+Directory: A symbol table that translates file names into their directory entries.
+
+
+## Schemes of Directory's Logical Structure:
+
+1. Single-Level Directory
+
+All files contain in the same directory
+
+2. Two-Level Directory
+
+Every users has their own directories call **user file directory**.
+
+All **use file directories** are under **master file directory**.
+
+
+3. Tree-Structure Directory
+
+There is a **root directory** where every path starts from and start the concept of **Absolute Path** and **Relative Path**.
+
+There are many **subdirectories** beneath the root directory and each of them may have multiple levels.
+
+Ex: DOS.
+
+4. Acyclic-Graph Directory
+
+Unlike Tree-Structure Directory, an Acyclic-Graph Directory allows files be shared. 
+
+The way different directories share the files are links and they have two types.
+
+One is symbolic link and another one is hard link. 
+
+However, Acyclic-Graph has to assure that there is no cycles in the structure,
+
+It does not allow users to use hard links to link a directory because Acyclic-Graph Directory's algorithm can not identify between hard link and directory.
+
+Thus, it causes an infinite loop. Although the symbolic links are allowed to link directory, the traverse algorithm can identify the softlink and avoid to access it.
+
+
+5. General Graphic Directory
+
+All kinds of scheme are General Graphic Directory, including those allow the infinite loops existing in directory.
+
+## Hard Link and Symbolic Link
+
+Hard Link: Directory entry creates a link that point to the i-node that describes the content directly.
+
+Symbolic Link: Also named soft link, is implemented as a file has its own i-node which contains the path the link points to.
+
+The size of a symbolic link is the same as the pathname. 
+
+Ex: Shortcut in Windows system.
+
+## File System Mounting
+
+**Mounting** is an action must be made before starting to access the disk.
+
+**Mounting point** is the place an unmounted system to be mount. 
+
+# Chapter 11: Implementing File-Systems
+
+
 
 # Chapter 12: Mass-Storage Structure
 
