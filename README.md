@@ -255,6 +255,23 @@ Average I/O time = Average Access time + ( Amount to transfer / transfer rate ) 
 
 Here are several common Scheduling:
 
+### FCFS Scheduling
+
+**First Come, First Serve**. It treats requests fairly, however the throughput is low. The access lantency for head to its next position might be really time-consuming.
+
+### SSTF Scheduling
+
+SSTF is the abbreviation of **Shortest Seek Time First**. The disk decides the priority according to the distance from head's current position to the request positions. 
+
+It truly provides high performance, but
+
+### SCAN Scheduling
+
+### C-SCAN Scheduling
+
+### Look Scheduling
+
+### C-Look Scheduling
 
 
 # Chapter 13: I/O Systems
