@@ -239,9 +239,27 @@ Host-Attached Storage: Devices talk to I/O buses through the I/O ports.
 
 Network-Attached Storage (NAS): Storage devices that can be accessed through network.
 
-Storage-Area Network (SAN): 
+Storage-Area Network (SAN): It's a storage network that users cannot access directly through internet, instead, users get the data through other services like http. It's common to be seen in IT business. 
+
+## Disk Scheduling (Magnetic Disk)
+
+The Time indices that are used to measure the Magnetic Disk Performance
+
+1. Access Latency: (Average access time)
+
+Access Latency = Average seek time (Time for the head to move from track to track) + Average rotational lantency (Rotate to the right position)
+
+2. Average I/O time
+
+Average I/O time = Average Access time + ( Amount to transfer / transfer rate ) + controller overhead
+
+Here are several common Scheduling:
+
+
 
 # Chapter 13: I/O Systems
+
+
 
 # Chapter 14: System Protection
 
