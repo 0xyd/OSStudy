@@ -4,7 +4,60 @@ An Open note for people who want to study OS.
 # Outline
 
 1. Chapter 1: Introduction
+
+Two major goals of Operating System: Convinience and Efficiency
+
+The role of OS: A **Resource Allocator** and **Control Program**
+
+OS is an **interrupt-driven** system.
+
+## Multiprocessor System
+
+Also called as parallel system, **tightly coupled systems** 
+
+## Process Management
+
+A process is **a program in execution**.
+
+## Memory Management
+
+All data stored in memory before and after processing.
+
+All instructions in memory in order to execute.
+
+## Storage Management
+
+Mass-Storage Management: Data needs to be stored for a long time or cannot be stored in the main memory.
+
+The speed of the disk is the bottleneck of OS performance.
+
+## Computing Environment
+
+Virtualization
+
+Cloud computing is a **logical extension of virtualization**.
+
+**Real-time embedded Systems** are most common OS nowadays. Real-time means that the **task has to be done in time**. 
+
+## Open-Source Operating System
+
+
 2. Chapter 2: System Structures
+
+## User and OS Interface
+
+Command Line Interface (CLI): CLI is must in OS.
+
+Graphic Use Interface (GUI)L GUI is an optinal choice but for common users, it is necessary.
+
+Touch Screen
+
+## System Calls
+
+## System Program
+
+System program provides 
+
 3. Chapter 3: Process Concept
 4. Chapter 4: Multithreaded Programming
 5. Chapter 5: Process Scheduling
@@ -259,23 +312,119 @@ Here are several common Scheduling:
 
 **First Come, First Serve**. It treats requests fairly, however the throughput is low. The access lantency for head to its next position might be really time-consuming.
 
+SSD loves FCFS.
+
 ### SSTF Scheduling
 
 SSTF is the abbreviation of **Shortest Seek Time First**. The disk decides the priority according to the distance from head's current position to the request positions. 
 
-It truly provides high performance, but
+It truly provides high performance, but it has a severe disadvantage:
 
-### SCAN Scheduling
+If there are many requests near by the head keep coming out, the requests that are far from the head will wait a very long time.
 
-### C-SCAN Scheduling
+SSTF is widely implemented in reality.
 
-### Look Scheduling
+### SCAN method
 
-### C-Look Scheduling
+1. SCAN Scheduling
+
+SCAN reads the requests from one end to another end then it move reversely. The disk keep doing this until it finishes read all requests.
+
+The disadvantage is that if there are some new requests appear on the tracks that was read recently, they have to wait the head to finish its current turn then return which is time-consuming. 
+
+
+2. C-SCAN Scheduling
+
+C-SCAN is similar to SCAN, the main difference is that once the head finishes reading all requests on the path, it returns to its beginning without serving other requests it passes along the way. This way it provides a more uniform wait time.
+
+SCAN and C-SCAN are good when disks are in heavy loading.
+
+### LOOK method
+
+LOOK is alike SCAN but the main difference is that SCAN reaches the end while LOOK just reaches the farthest one.
+
+1. LOOK Scheduling
+
+Head moves to an end and read the requests along its way to the farthest request on the path then it returns and continue.
+
+2. C-LOOK Scheduling
+
+Head moves to an end are read the requests along the way to the farthest request, then it move reversely without reading any request along the way until it reaches the request that is closest to the far end.
+
+LOOK is good choice for default algorithm.
+
+## Disk Management
+
+Low-Level Formatting (Physical Formatting): Dividing the disk into sectors.
+
+Patition: Divide the disk into one or a group of cylinders and each of it is treated as a logical disk.
+
+Logical formating: 
+
+A special requirement like some database would like to have an array without any file-system data structures called **raw disk** which I/O is also called **Raw I/O**. 
+
+## Bad Blocks
+
+Soft Error : A bad block can be recoverd by ECC
+
+Hard Error : A bad block results in lost data.
+
+Spared Sector are used in two ways to recovery data:
+
+1. Sector sparing: Use a spared sector to replace the broken one
+
+2. Sector slipping: Copy the context of bad block to its next block and shift all of the blocks after it. The last block in the shifted array will be moved to spared space.
+
+## Swap-Space Managemet
+
+Swap-space is virtual memory used disk space as an extension of main memory. But nowadays, the need of the swap-space is declined due to the increasing size of memory
+
+
+## RAID Structure
+
+RAID uses redundant array of inexpensive disks and it can reduce the mean time of data loss, failure, repair.
 
 
 # Chapter 13: I/O Systems
 
+## I/O Hardware
+
+Port: Connection point for the device
+
+Bus : Daisy chain or shared direct access
+
+Controller(Host adapter): Electronics that operate port, bus, device. 
+
+## I/O Hardware Access
+
+I/O port are consisted of 4 device registers which are accessible for the host:
+
+* Data-in register
+* Data-out register
+* Status register
+* Control register
+
+### I/O Operation Mechanisms
+
+1. Polling:
+
+CPU accesses a I/O device's status register repeatly until the device is not busy and ready to work. This mechanism cause a problem called **busy wait**.
+
+2. Interrupts
+
+There is a line called **interrupt-request line** that I/O devices use to send interrupt signal. Once CPU catches the interruption, it dispatches it to interrupt handler to serve the device. After interrupt handler finishes the interrupt task, it executes a return from interrupt to return CPU to its prior state.
+
+There are two types of interrupt-request line, the one is nonmaskable and the other one is maskable. Nonmaskable interrupt is reserved for special events like errors. Another one is maskable interrupt which can be closed by CPU when it needs to conduct some vital sequence instructions that must not be interrupted.
+
+Interrupt vector can reduce the time for an interrupt handler to search for all the possible interrupt sender by containing the specific address handler. 
+
+Nowadays, there are many devices composed in a computer. Hence, there are more interrupt handlers. The **interrupt chaining** is invented, every element in vector points at the head of corresponding handler list. The handler on the list will be called one by one until there is a handler can serve the request.
+
+Interrupt are used for exceptions: Terminate process, Page fault, System call by trap that triggers kernel to execute the request.
+
+3. DMA (Direct Memory Access)
+
+DMA are used to prevent for large data movement beca use it is time-consuming for CPU which can only move one or few bytes at a time(Programmed I/O). DMA bypasses CPU to transfer data directly from I/O devices to memory.
 
 
 # Chapter 14: System Protection
