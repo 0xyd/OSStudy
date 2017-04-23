@@ -76,6 +76,107 @@ System program provides
 
 # Chapter 1: Introduction
 
+# Chapter 3: Process
+
+Definition: Process is a running program. In other words, a program in execution.
+
+## Process State
+
+	1. New: The process is created
+	2. Ready: The process is waiting to be dispatched to CPU by scheduler
+	3. Running: The process that is running in CPU
+	4. Waiting: The process is interrupted by some events such as I/O and it cannot be executed until the event finished.
+	5. Terminated: The process is finish execution
+
+## Process Control Block
+
+Definition: A data structure in the operating system kernel containing the information needed to manage a particular process.[1]
+
+The stored information is list below:
+
+	1. Process State
+	2. Program counter
+	3. CPU register
+	4. CPU scheduling information
+	5. Memory-management information
+	6. Accounting information
+	7. IO status information
+
+## Context Switching
+
+Definition: The operation that a CPU switches from process to process. It stores the state of an old process and load the saved state for new process. In reality, a computer uses most of its CPU resources to perform Context Switching. In other words, OS is the most frequent used process.
+
+## Process Scheduling
+
+Definition: A process scheduler selects a among available processes for next execution on CPU and mantains scheduling queue.
+
+## Scheduler 
+
+	1. Long-term Scheduler: A long-term scheduler is invoked infrequently and selects which processes should be brought into ready queue. The most important, it controls the *degree of multiprogramming*.
+	2. Short-term Scheduler: Compared to Long-term Scheduler, short-term scheduler is triggered really frequently and it selects which processes should be executed for next.
+	3. Medium-term Scheduler: Once the memory works overload, medium-term scheduler is added to remove the process from the memory, store it in the disk and bring it back to be executed. This operation is called swapping. The main goal of swapping operation is to reduce the *degree of multiprogramming*.
+
+## Process Creation
+
+Definition: Parent process create children processes that create other processes that formeing a tree of processes. Processes are identified through process identifier(pid). When a child process is created, parent and children can share all, partial part or none of the resources. 
+
+Two commands are used for process creation in Unix: fork and exec.
+
+fork: A system call to duplicate a new process from a parent process.
+
+exec: A system call after fork() to replace parent's memory space with the new program.
+
+## Process Termination
+
+Definition: Process asks OS to delete it after it finishes the last instruction. Parent process will wait until its all children processes call exit(). 
+
+Parent process can kill its children via executing abort().
+
+If a parent process performs exit(), then there are two situations:
+
+	1. Child processes are allowed to continue via changing their parent. Most of the time, the process 1 will adopt them.
+	2. Sometimes, the parent processes are not allowed to teriminate before killing all its children. This is so called *cascade termination*. When a parent conduct cascade termination, it kills the leaf nodes iteratively and finally suicides.
+
+## Interprocess Communication
+
+Interprocess communication(IPC) only exists between interprocess communication. Independent process will not be affected by other processes.
+
+### Communication Models
+
+There are two types of IPC:
+
+	1. Message Passing
+	2. Shared Memory
+
+### Producer-Consumer Problem
+
+A common paradigm for cooperating processes, the producer process produces information and the consumer process consumes the information created by the producer process. 
+
+A bounded-buffer solution: A circular queue which put the elements in from the rear side and push them out from the front side.
+
+Producer pseudo code:
+    
+    while(True) {
+        while(rear+1 % buffer_size == front); /* Do nothing when the queue is full*/
+        buffer[rear] = next_produced;
+        rear = (rear+1) % buffer_size;
+    }
+    
+Consumer pseudo code:
+    
+    while(True) {
+        while(rear % buffer_size == front); /* Do nothing when the queue is empty*/
+        consumed = buffer[front];        
+        buffer[front] = null;
+        front = (front+1) % buffer_size;
+    }
+    
+### Direct and Indirect Communication
+
+Direct: Processes called each other explicitly and it is exactly pair of communicating channel. Pipe command, for instance.
+
+Indirect: Mailboxes are created to store message from various processes and each of them has a unique id. The messages stored inside might be associated with more than 2 processes. Ports are great examples.
+
 # Chapter 10: File System
 
 ## Secondary Storage
@@ -426,10 +527,98 @@ Interrupt are used for exceptions: Terminate process, Page fault, System call by
 
 DMA are used to prevent for large data movement beca use it is time-consuming for CPU which can only move one or few bytes at a time(Programmed I/O). DMA bypasses CPU to transfer data directly from I/O devices to memory.
 
+## Application I/O Interface
+
+I/O system calls encapsulate device behaviours to make users convenient to use.
+
+Device-driver layers hides the details of implmentations
+
+## Block, Character and Network Devices
+
+Character Devices: Devices use a character as a I/O transfer unit and use sequential access. 
+
+Commands: get(), put()
+
+Example: Printer, Keyborad, Sound board.
+
+Block Devices: Devices use a block as the basic I/O transfer unit.
+
+Commands: read(), write(), seek()
+
+Example: Disks, Raw I/O, Direct I/O(File system supports without buffering and locking) 
+
+Network Devices: Device may use block or character.
+
+The socket interface is provided to manipulate Network I/O devices in Unix and Windows.
+
+## Blocking, Non-blocking and Asychronous I/O
+
+Blocking I/O: 
+
+Non-blocking I/O:
+
+Asychronous I/O:
+
+## I/O Scheduling
+
+1. Buffering: Storing the data in memory while transfering between devcies that handle the problems of different transfering speed between devices.
+
+2. Caching: Put data in the memory to reduce the overhead of reading and other operations. Simply to say, the main difference between buffering and caching is that buffereing use the exist data and caching copy the data but both may share the same space in memory.
+
+3. Spooling: A buffer that holds multiple outputs to prevent interleaved data streams.
 
 # Chapter 14: System Protection
 
+Two basic principles: Least Privilege, Need-to-Know
+
+Least Privilege: Programs, users and systems should be just given enough privilege to perform their tasks.
+
+Need-to-Know: Given temporary privilege of required resources currently to a process to conduct its tasks. 
+
+## Domain Structure
+
+## MULTICS Ring Structure
+
+## Access Matrix
+
+## Implementation: Lock-Key
+
+
+
 # Chapter 15: System Security
+
+## Masquerading
+
+## Replay attack
+
+## Man-in-the-middle attack
+
+## Session Hijacking
+
+## Program Threats
+
+1. Trojan Horse
+2. Trap Door
+3. Logic Bomb
+4. Stack and Buffer Overflow
+
+## System and Network Threats
+
+1. Port Scanning
+2. Denial of Service (DOS)
+3. Men-in-the-middle attack 
+
+# Encription
+
+## Symmetric Encripytion
+
+Use same key to encrpyt and decrypt.
+
+Ex: AES (Advanced Encryption Standard)
+
+## Asymmetric Encripytion
+
+Ex: RSA algorithm
 
 # Chapter 16: The Linux System
 
@@ -437,4 +626,8 @@ DMA are used to prevent for large data movement beca use it is time-consuming fo
 
 * [Operating System Concepts 9th edition ](http://as.wiley.com/WileyCDA/WileyTitle/productCd-EHEP002013.html)
 * [Wikipedia](https://www.wikipedia.org)
+
+# Notes
+1. [Process control block](https://en.wikipedia.org/wiki/Process_control_block)
+2.
 
